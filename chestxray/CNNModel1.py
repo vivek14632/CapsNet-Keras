@@ -40,52 +40,86 @@ for row in datam:
 		temp.append(0)
 	datam_new.append(temp)
 
-XMatrix=[]
-XMatrix_test=[]
-YMatrix_test=[]
-count =0
 
-for file in files:
-	image = misc.imread(path_to_image+file)
+# splitting of train test labels
+TRAIN_TEST_PERCENT=0.2
+X_TEST_LABELS= datam_new[len(datam_new)- int(len(datam_new)*TRAIN_TEST_PERCENT):len(datam_new)]
+X_TRAIN_LABELS= datam_new[0 : (len(datam_new)- int(len(datam_new)*TRAIN_TEST_PERCENT))]
+
+X_TRAIN_MATRIX=[]
+X_TEST_MATRIX=[]
+
+Y_TRAIN_MATRIX=[]
+Y_TEST_MATRIX=[]
+#XMatrix_test=[]
+#YMatrix_test=[]
+#count =0
+
+
+
+for file in X_TRAIN_LABELS:
+	image = misc.imread(path_to_image+file[0])
 	if (sum(image.shape) == 2048):
 			
 			#image1=image.reshape(1024,1024,4)
-			XMatrix.append(image)
-			count+=1
-#XMatrix = XMatrix.reshape()
-XMatrix=np.asarray(XMatrix)
-XMatrix= XMatrix.reshape(count, RESHAPED)
-testPercentage = 40
-counter = int((testPercentage*count)/100)
-TestCounter = counter
+			X_TRAIN_MATRIX.append(image)
+			#count+=1
 
-for x in range(TestCounter):#np.nditer(XMatrix,flags=['external_loop'], order='F'):
-	if(counter>0):
-		XMatrix_test.append(XMatrix[x])
-		counter-=1
-	else:
-		break
-XMatrix_test=np.asarray(XMatrix_test)
-XMatrix_test= XMatrix_test.reshape(TestCounter, RESHAPED)		
+
+for file in X_TEST_LABELS:
+	image = misc.imread(path_to_image+file[0])
+	if (sum(image.shape) == 2048):
+			
+			#image1=image.reshape(1024,1024,4)
+			X_TEST_MATRIX.append(image)
+			#count+=1
+
+for file in X_TRAIN_LABELS:
+	Y_TRAIN_MATRIX.append(file[1])
+
+
+for file in X_TEST_LABELS:
+	Y_TEST_MATRIX.append(file[1])
+
+X_TRAIN_MATRIX=np.asarray(X_TRAIN_MATRIX)
+X_TRAIN_MATRIX=X_TRAIN_MATRIX.reshape(40,1024,1024,1)
+X_TEST_MATRIX=np.asarray(X_TEST_MATRIX)
+X_TEST_MATRIX=X_TEST_MATRIX.reshape(9,1024,1024,1)
+
+# #XMatrix = XMatrix.reshape()
+# XMatrix=np.asarray(XMatrix)
+# XMatrix= XMatrix.reshape(count, RESHAPED)
+# testPercentage = 40
+# counter = int((testPercentage*count)/100)
+# TestCounter = counter
+
+# for x in range(TestCounter):#np.nditer(XMatrix,flags=['external_loop'], order='F'):
+	# if(counter>0):
+		# XMatrix_test.append(XMatrix[x])
+		# counter-=1
+	# else:
+		# break
+# XMatrix_test=np.asarray(XMatrix_test)
+# XMatrix_test= XMatrix_test.reshape(TestCounter, RESHAPED)		
 
 		
-YMatrix=[]
+# YMatrix=[]
 
-for file in files:
-	for row in datam_new:
-		if(file==row[0]):
-			YMatrix.append(row[1])
+# for file in files:
+	# for row in datam_new:
+		# if(file==row[0]):
+			# YMatrix.append(row[1])
 
-YMatrix=np.asarray(YMatrix)
-counter = int((testPercentage*count)/100)
-for y in range(TestCounter):#np.nditer(YMatrix, order='F'):
-	if(counter>0):
-		YMatrix_test.append(YMatrix[y])
-		counter-=1
-	else:
-		break
-YMatrix_test=np.asarray(YMatrix_test)
-#YMatrix_test= YMatrix_test.reshape(TestCounter, RESHAPED)
+# YMatrix=np.asarray(YMatrix)
+# counter = int((testPercentage*count)/100)
+# for y in range(TestCounter):#np.nditer(YMatrix, order='F'):
+	# if(counter>0):
+		# YMatrix_test.append(YMatrix[y])
+		# counter-=1
+	# else:
+		# break
+# YMatrix_test=np.asarray(YMatrix_test)
+# #YMatrix_test= YMatrix_test.reshape(TestCounter, RESHAPED)
 
 
 #YMatrix= YMatrix.reshape(49, RESHAPED)
